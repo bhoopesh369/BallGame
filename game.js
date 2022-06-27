@@ -112,7 +112,7 @@ function GameMain(){
     var x = 800;
     var y = 50;
     var dx = 2;
-    var dy = 1;
+    var dy = 2;
     
     ctx2.fillStyle = "#0095DD";
     
@@ -133,7 +133,7 @@ function GameMain(){
                 chanceSound();
             }
             y=90;
-            dy=1;
+            dy=2;
             chances++;
             document.querySelectorAll("span")[3 - chances].style.display = 'none'; 
             
@@ -250,7 +250,7 @@ class Platform {
 
         if(this.inPlat){
             if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x)){
-                dy = 1;
+                dy = 2;
                 
             }
         }
