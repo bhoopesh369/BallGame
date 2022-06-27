@@ -139,15 +139,16 @@ function GameMain(){
             
             var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
 
-            if(score> temp){
-                window.localStorage.setItem(HighscoreBlueBall, score);
-            }
-
+            
             if(chances == 3){
                 gameOverSond();
 
                 setTimeout(()=>{
 
+                    if(score> temp){
+                        window.localStorage.setItem(HighscoreBlueBall, score);
+                    }
+        
                 alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");      
                 location.reload();
               },900);
