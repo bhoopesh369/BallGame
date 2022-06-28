@@ -318,7 +318,7 @@ function platDelay(){
         var rando = Math.random();
 
         var pickup = "";
-        if(rando > 0.97 && chances > 0){
+        if(rando > 0.95 && chances > 0){
            pickup = '💓';
         }
       
