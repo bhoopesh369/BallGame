@@ -23,6 +23,11 @@ function gameOverSond(){
     aud.play();
 }
 
+function lifeUpSound(){
+    var aud = new Audio("sounds/lifeup.wav");
+    aud.play();
+}
+
 function GameMain(){
 
     document.querySelector(".life").style.display = 'block';  
@@ -142,7 +147,7 @@ function GameMain(){
             
             if(chances == 3){
                 gameOverSond();
-
+                dy=0;
                 setTimeout(()=>{
 
                     if(score> temp){
@@ -224,12 +229,14 @@ class Platform {
     draw(context) {
         context.beginPath();
         context.strokeStyle = this.color;
-        // context.fillText(this.text, this.position_x, this.position_y);
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.font = "30px Arial";
         context.lineWidth = 5;
         // context.arc(this.position_x, this.position_y, this.radius, 0, Math.PI * 2);
+        
+        context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15); 
+        
         context.rect(this.position_x, this.position_y, 4*this.length ,7);
         context.fill();
         context.stroke();
@@ -240,22 +247,32 @@ class Platform {
     }
 
     update() {
-
         
+        //  
+        if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text == '💓'){
+            this.text = "";
+            // context.font = "12px Arial";
+            // context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15);
+            lifeUpSound();
+            context.clearRect(this.position_x,this.position_y-20, this.position_x+20, this.position_y );
+            document.querySelectorAll("span")[3 - chances].style.display = 'inline'; 
+            chances--;
 
-       
-        if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -20) && y<(this.position_y)){
-            dy = -0.9;
-            this.inPlat = true;
         }
 
+        if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -23) && y<(this.position_y + 1)){
+            dy = -0.91;
+            this.inPlat = true;
+        }
+        
+
         if(this.inPlat){
-            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x)){
+            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-25){
                 dy = 2;
                 
             }
         }
-        
+        // this.inPlat = false;
         this.draw(context);
 
 
@@ -270,11 +287,9 @@ class Platform {
             return;
         }
 
-
         // this.position_x += this.dx;
         this.position_y -= this.dy; 
-
-        
+  
     }
 }
 
@@ -285,7 +300,7 @@ let randomNumber = function(min, max) {
 };
 
 
-var all_circles = [];
+var all_platforms = [];
 
 for (var i = 0; i < 500; i++) {
     platDelay();
@@ -299,17 +314,16 @@ function platDelay(){
         var random_x = randomNumber(radius, (window_width - 4*radius));
         var random_y = randomNumber(window_height- 1*radius, (window_height - radius));
         var len = 60*(0.5 + Math.random());
+
+        var rando = Math.random();
+
+        var pickup = "";
+        if(rando > 0.7 && chances > 0){
+           pickup = '💓';
+        }
       
-        // for( var a = 0; a < all_circles.length; a++) {
-        //   if ( (getDistance(random_x, random_y, all_circles[a].xpos, all_circles[a].ypos) - radius + all_circles[a].radius < 0) ) {
-        //     random_x = randomNumber(radius, (window_width-radius));
-        //     random_y = randomNumber(radius, (window_height-radius));
-        //   }
-        //   a = all_circles.length;
-        // }
-      
-        let myPlatform = new Platform(2*random_x, random_y, radius, 1.5, 'Black', 'A' , false , len);
-        all_circles.push(myPlatform);
+        let myPlatform = new Platform(2*random_x, random_y, radius, 1.5, 'Black', pickup , false , len);
+        all_platforms.push(myPlatform);
        },1500*i);
 }
 
@@ -318,7 +332,7 @@ let updatePlatform = function() {
   requestAnimationFrame(updatePlatform);
   context.clearRect(0, 0, window_width, window_height);
 
-  all_circles.forEach(element => {
+  all_platforms.forEach(element => {
     element.update();
   });
 };
@@ -362,7 +376,13 @@ updatePlatform();
 // context.strokeStyle = '#666666';
 // context.stroke();
 
-
+     // for( var a = 0; a < all_platforms.length; a++) {
+        //   if ( (getDistance(random_x, random_y, all_platforms[a].xpos, all_platforms[a].ypos) - radius + all_platforms[a].radius < 0) ) {
+        //     random_x = randomNumber(radius, (window_width-radius));
+        //     random_y = randomNumber(radius, (window_height-radius));
+        //   }
+        //   a = all_platforms.length;
+        // }
 
 
 
