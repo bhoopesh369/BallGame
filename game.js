@@ -138,7 +138,7 @@ function GameMain(){
                 chanceSound();
             }
             y=90;
-            dy=2;
+            dy=1.5;
             chances++;
             document.querySelectorAll("span")[3 - chances].style.display = 'none'; 
             
@@ -260,16 +260,16 @@ class Platform {
 
         }
 
-        if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -23) && y<(this.position_y + 1)){
-            dy = -0.91;
+        if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -18) && y<(this.position_y + 25)){
+            dy = -3;
             this.inPlat = true;
         }
         
 
         if(this.inPlat){
-            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-25){
-                dy = 2;
-                
+            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-45){
+                dy = 1.5;
+                this.inPlat = false;
             }
         }
         // this.inPlat = false;
