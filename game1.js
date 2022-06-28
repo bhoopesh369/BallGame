@@ -117,7 +117,9 @@ function GameMain(){
     var x = 800;
     var y = 50;
     var dx = 2;
-    var dy = 2;
+    var dy = 1.5;
+
+    var z = 1.5;
     
     ctx2.fillStyle = "#0095DD";
     
@@ -133,21 +135,24 @@ function GameMain(){
     
     function drawB() {
         if(y>=window.innerHeight - 16 || y<40){
+
+            var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
             
             if(chances<2){
                 chanceSound();
             }
             y=150;
-            dy=1.5;
+            dy= z;
             chances++;
             document.querySelectorAll("span")[3 - chances].style.display = 'none'; 
             
-            var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
 
             
             if(chances == 3){
+                y = 1900;
+                dy = 0;
                 gameOverSond();
-                dy=0;
+                
                 setTimeout(()=>{
 
                     if(score> temp){
@@ -206,7 +211,7 @@ canvas.height = window_height;
 canvas.style.background = "#ff8";
 
 class Platform {
-    constructor(xpos, ypos, radius, speed, color, text, inPlat, length) {
+    constructor(xpos, ypos, radius, speed, color, text, inPlat, length , text1) {
 
         this.position_x = xpos;
         this.position_y = ypos;
@@ -219,6 +224,7 @@ class Platform {
         this.dy = 1 * this.speed;
 
         this.text = text;
+        this.text1 = text1;
 
         this.color = color;
 
@@ -236,7 +242,10 @@ class Platform {
         // context.arc(this.position_x, this.position_y, this.radius, 0, Math.PI * 2);
         
         context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15); 
-        
+        if(this.text != '💓'){
+            context.fillText(this.text1, this.position_x + 2*(this.length), this.position_y - 15); 
+        }
+
         context.rect(this.position_x, this.position_y, 4*this.length ,7);
         context.fill();
         context.stroke();
@@ -246,9 +255,22 @@ class Platform {
 
     }
 
+
     update() {
+
+        // WeakPlatform
+
+        var wp = Math.random();
+        // if(wp>0.5){
+        //     setTimeout(()=>{
+        //         context.clearRect(0,0,canvas.width,canvas.height);
+        //         return;
+        //     },3000);
+            
+        // }
         
-        //  
+        //  Life Upgrade
+
         if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text == '💓'){
             this.text = "";
             // context.font = "12px Arial";
@@ -260,15 +282,34 @@ class Platform {
 
         }
 
+        // Game Slowdown Boost
+
+        if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text1 == '⏳'){
+            this.text1 = "";
+            // context.font = "12px Arial";
+            // context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15);
+            lifeUpSound();
+            context.clearRect(this.position_x,this.position_y-20, this.position_x+20, this.position_y );
+            this.dy = 1;
+            dy = 1;
+            z = 1;
+            setTimeout(()=>{
+               this.dy = 1.5;
+               dy = 1.5;
+               z = 1.5;
+            },5000);
+
+        }
+
         if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -18) && y<(this.position_y + 25) ){
-            dy = -3;
+            dy = -2*z;
             this.inPlat = true;
         }
         
 
         if(this.inPlat){
             if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-45){
-                dy = 1.5;
+                dy = z;
                 this.inPlat = false;
             }
         }
@@ -321,8 +362,14 @@ function platDelay(){
         if(rando > 0.95 && chances > 0){
            pickup = '💓';
         }
+
+        var rando1 = Math.random();
+        var pickup1 = "";
+        if(rando1 > 0.94 && score > 50){
+           pickup1 = '⏳';
+        }
       
-        let myPlatform = new Platform(2*random_x, random_y, radius, 1.5, 'Black', pickup , false , len);
+        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , len, pickup1);
         all_platforms.push(myPlatform);
        },1500*i);
 }
@@ -342,47 +389,3 @@ updatePlatform();
 }
   
   
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  // function draw() {
-   //     context.beginPath();
-   //     // context.arc(x, y, 20, 0, 2 * Math.PI);
-   //     context.fillStyle = 'rgba(250,0,0,0.4)';
-   //     context.fill();
-   
-//     x += 2;
-//     context.fillStyle = "rgba(34,45,23,0.4)";
-//     context.fillRect(0, 0, can.width, can.height);
-//     requestAnimationFrame(draw);
-//     // context.clearRect(0,0,can.width,can.height);
-// }
-// draw();
-
-
-// context.strokeStyle = '#666666';
-// context.stroke();
-// context.lineWidth = 10;
-// context.strokeStyle = '#666666';
-// context.stroke();
-
-     // for( var a = 0; a < all_platforms.length; a++) {
-        //   if ( (getDistance(random_x, random_y, all_platforms[a].xpos, all_platforms[a].ypos) - radius + all_platforms[a].radius < 0) ) {
-        //     random_x = randomNumber(radius, (window_width-radius));
-        //     random_y = randomNumber(radius, (window_height-radius));
-        //   }
-        //   a = all_platforms.length;
-        // }
-
-
-
