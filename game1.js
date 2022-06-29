@@ -259,6 +259,19 @@ class Platform {
 
     update() {
 
+         // Game Speed up with progress
+
+        if(score>50){
+            z = 1.6;
+        }
+
+        if(score>120){
+            z = 1.7;
+        }
+
+        if(score>200){
+            z = 1.8;
+        }
 
         //  Life Upgrade
 
@@ -292,6 +305,7 @@ class Platform {
             },5000);
 
         }
+
 
         if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -18) && y<(this.position_y + 25) ){
             dy = -2*z;
