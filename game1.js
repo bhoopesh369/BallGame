@@ -262,16 +262,33 @@ class Platform {
          // Game Speed up with progress
 
         if(score>50){
+            z = 1.55;
+        }
+
+        if(score>100){
             z = 1.6;
         }
 
-        if(score>120){
-            z = 1.7;
+        if(score>150){
+            z = 1.65;
         }
 
         if(score>200){
+            z = 1.7;
+        }
+
+        if(score>250){
+            z = 1.75;
+        }
+
+        if(score>300){
             z = 1.8;
         }
+
+        if(score>350){
+            z = 1.85;
+        }
+
 
         //  Life Upgrade
 
