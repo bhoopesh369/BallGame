@@ -289,6 +289,29 @@ class Platform {
             z = 1.85;
         }
 
+        if(score>400){
+            z = 1.9;
+        }
+
+        if(score>450){
+            z = 1.95;
+        }
+
+        if(score>500){
+            z = 2.00;
+        }
+
+        if(score>550){
+            z = 2.05;
+        }
+
+        if(score>600){
+            z = 2.1;
+        }
+
+        if(score>650){
+            z = 2.2;
+        }
 
         //  Life Upgrade
 
