@@ -69,13 +69,10 @@ function GameMain(){
     // context1.fill();
     // context1.closePath();
     
-    
     // context1.beginPath();
     // context1.rect(440, 200, 120, 8);
     // context1.fill();
     // context1.closePath();
-
-
 
     // var canvas1 = document.getElementById("myCanvas2");
     // var ctx1 = canvas1.getContext("2d");
@@ -140,28 +137,29 @@ function GameMain(){
             
             if(chances<2){
                 chanceSound();
+                dy= z;
+                document.querySelectorAll("span")[2 - chances].style.display = 'none'; 
+                y = 130;
+                x = window_height;
             }
-            y=150;
-            dy= z;
+           
             chances++;
-            document.querySelectorAll("span")[3 - chances].style.display = 'none'; 
-            
-
             
             if(chances == 3){
-                y = 1900;
+                y = 40;
+                z = 0;
                 dy = 0;
                 gameOverSond();
                 
-                setTimeout(()=>{
-
+         
                     if(score> temp){
                         window.localStorage.setItem(HighscoreBlueBall, score);
                     }
         
-                alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");      
+              setTimeout(()=>{ 
+                alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");
                 location.reload();
-              },900);
+              },200);
                 
             }
         }
@@ -211,7 +209,7 @@ canvas.height = window_height;
 canvas.style.background = "#ff8";
 
 class Platform {
-    constructor(xpos, ypos, radius, speed, color, text, inPlat, length , text1) {
+    constructor(xpos, ypos, radius, speed, color, text, inPlat, length , text1 , weak) {
 
         this.position_x = xpos;
         this.position_y = ypos;
@@ -227,6 +225,9 @@ class Platform {
         this.text1 = text1;
 
         this.color = color;
+
+        this.weak = weak;
+        // this.spike = spike;
 
         this.inPlat = inPlat;
         this.length = length;
@@ -246,29 +247,19 @@ class Platform {
             context.fillText(this.text1, this.position_x + 2*(this.length), this.position_y - 15); 
         }
 
+
         context.rect(this.position_x, this.position_y, 4*this.length ,7);
         context.fill();
         context.stroke();
         context.closePath();
-    
-       
 
+    
     }
 
 
     update() {
 
-        // WeakPlatform
 
-        var wp = Math.random();
-        // if(wp>0.5){
-        //     setTimeout(()=>{
-        //         context.clearRect(0,0,canvas.width,canvas.height);
-        //         return;
-        //     },3000);
-            
-        // }
-        
         //  Life Upgrade
 
         if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text == '💓'){
@@ -281,6 +272,7 @@ class Platform {
             chances--;
 
         }
+
 
         // Game Slowdown Boost
 
@@ -313,10 +305,26 @@ class Platform {
                 this.inPlat = false;
             }
         }
+
+        if(this.weak == 1){
+        //   this.color = "red";  
+          setTimeout(()=>{
+            // context.clearRect(0,0,canvas.width,canvas.height);
+            this.length = 0;
+            this.color = "#ff8";
+            this.text = "";
+            this.text1 = "";
+            // all_platforms.pop(this);
+            return;
+          },(Math.random() + 0.5) * 1500);
+        }      
+    
         // this.inPlat = false;
         this.draw(context);
 
+                 //Disappearing Platforms
 
+               
         if ( (this.position_x - this.radius) < 0 ) {
             context.clearRect(0,0,canvas.width,canvas.height);
             return;
@@ -328,7 +336,7 @@ class Platform {
             return;
         }
 
-        // this.position_x += this.dx;
+         // this.position_x += this.dx;
         this.position_y -= this.dy; 
   
     }
@@ -369,7 +377,20 @@ function platDelay(){
            pickup1 = '⏳';
         }
       
-        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , len, pickup1);
+        var wp = Math.random();
+        var wpa = 0;
+        if(wp>0.81){
+            wpa = 1;
+        }
+
+        // var sp = Math.random();
+        // var spa = 0;
+        // if(sp>0.5){
+        //     spa = 1;
+        // }
+
+
+        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , len, pickup1, wpa);
         all_platforms.push(myPlatform);
        },1500*i);
 }
