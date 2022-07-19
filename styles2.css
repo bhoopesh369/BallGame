@@ -1,18 +1,28 @@
 h1{
-    color: rgb(2, 255, 20);
+    color: rgb(255, 255, 0);
     margin-top: 10%;
     font-family: 'Press Start 2P', cursive;
 
 }
 
-h3{
+.sc1{
     display: none;
-    font-size: 2rem;
-    color: rgb(7, 118, 14);
+    font-size: 1.65rem;
+    color: #FFFFFF;
     position: absolute;
     z-index: 1;
-    top: 3%;
-    right: 3%;
+    top: 8%;
+    right: 2%;
+}
+
+.sc{
+    display: none;
+    font-size: 1.6rem;
+    color: #FFFFFF;
+    position: absolute;
+    z-index: 1;
+    top: 8%;
+    left: 2%;
 }
 
 body{
@@ -21,8 +31,7 @@ body{
     text-align: center;
 }
 
-
-
+             
 #w{
     position: absolute;
     z-index: 1;
@@ -35,12 +44,20 @@ body{
     position: absolute;
     z-index: 1;
     top: 7%;
-    left: 1.71%;
+    right: 1.71%;
     font-size: 1.5rem;
     display:none;
 
 }
+.lifeB1{
+    position: absolute;
+    z-index: 1;
+    left: 1.71%;
+    top: 7%;
+    font-size: 1.5rem;
+    display:none;
 
+}
 #svs {
     /* border: 1px dotted #333; */
     height: 100%;
@@ -72,4 +89,7 @@ body{
 }
 
 
-
+h5{
+    color: rgb(100, 39, 39);
+    color: rgb(11, 131, 183);
+}
