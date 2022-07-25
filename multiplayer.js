@@ -1,10 +1,10 @@
 var inGame = false;
-
+// var inPlat = false;
 var chances = 0;
 var score = 0;
-
 var HighscoreBlueBall = 0;
 
+// window.localStorage.setItem(HighscoreBlueBall, 0);
 
 console.log(window.localStorage.getItem(HighscoreBlueBall));
 
@@ -30,7 +30,6 @@ function lifeUpSound(){
 
 function GameMain(){
 
-    document.querySelector("body").classList.add("body1");
     document.querySelector(".life").style.display = 'block';  
     document.querySelector("h3").style.display = 'block';  
 
@@ -59,27 +58,7 @@ function GameMain(){
         context1.closePath();
     
     }
-      
-    // context1.beginPath();
-    // context1.moveTo(80,90);
-    // context1.lineTo(190,90);
-    // context1.lineTo(190,97);
-    // context1.lineTo(80,97);
-    // context1.fillStyle = "gray";
-    // context1.fill();
-    // context1.closePath();
-    
-    // context1.beginPath();
-    // context1.rect(440, 200, 120, 8);
-    // context1.fill();
-    // context1.closePath();
 
-    // var canvas1 = document.getElementById("myCanvas2");
-    // var ctx1 = canvas1.getContext("2d");
-    // var x1 = 750;
-    // var y1 = 350;
-    // var dx1 = 2;
-    // var dy1 = 2;
 
     var canvas2 = document.getElementById("myCanvas");
     var ctx2 = canvas2.getContext("2d");
@@ -90,17 +69,16 @@ function GameMain(){
 
     var z = 1.5;
     
-    ctx2.fillStyle = "rgb(255, 0, 255)";
+    ctx2.fillStyle = "#0095DD";
     
     
-    function displayBall() {
+    function displayBall(X,Y) {
         ctx2.beginPath();
-        ctx2.arc(x, y, 15, 0, Math.PI*2);
+        ctx2.arc(X, Y, 15, 0, Math.PI*2);
         ctx2.fill();
         ctx2.closePath();
-    
-    
     }
+
 
     function checkChance(){
         var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
@@ -146,10 +124,10 @@ function GameMain(){
             var keyPr = event.keyCode; 
     
             if(keyPr === 39 && x<=window.innerWidth - 16){ 
-                x = x+16; 
+                x = x+18; 
             }
             else if(keyPr === 37 && x>5){
-                x = x-16;
+                x = x-18;
             }
             // else if(keyPr === 38 && y>10) {
             //     y = y-10; 
@@ -162,7 +140,7 @@ function GameMain(){
   
       
        ctx2.clearRect(0, 0, canvas.width , canvas.height);
-       displayBall();
+       displayBall(x,y);
        //  x += dx;
        y += dy;
 
@@ -172,7 +150,59 @@ function GameMain(){
        } 
    }
   
-    const ballInter = setInterval(drawB, 10);
+
+
+    var canvas1 = document.getElementById("myCanvas1");
+    var ctx1 = canvas1.getContext("2d");
+
+    var x1 = 200;
+    var y1 = 50;
+    var dx1 = 2;
+    var dy1 = 1.5;
+      
+
+    function displayBall1(X,Y) {
+        ctx1.beginPath();
+        ctx1.arc(X, Y, 15, 0, Math.PI*2);
+        ctx1.fill();
+        ctx1.closePath();
+    }
+
+    function drawB2() {
+        if(y1>=window.innerHeight - 16 || y1<40){
+    
+            checkChance();
+        }
+    
+        window.onkeydown = function(event) {
+            var keyPr1 = event.keyCode; 
+    
+            if(keyPr1 === 68 && x1<=window.innerWidth - 16){ 
+                x1 = x1+18; 
+            }
+            else if(keyPr1 === 65 && x1>5){
+                x1 = x1-18;
+            }
+    
+    };
+    
+    
+       ctx1.clearRect(0, 0, canvas.width , canvas.height);
+       displayBall1(x1,y1);
+       //  x += dx;
+       y1 += dy1;
+
+    //    if(dy1>0){
+    //     score = score + 0.1;
+    //     document.querySelector("h3").innerHTML = "Score : " + Math.floor(score) ;
+    //    } 
+   }
+
+
+   const ballInter1 = setInterval(drawB2, 10);
+   setTimeout(100);
+   const ballInter = setInterval(drawB, 10);
+
 
     var canvas = document.getElementById("canvas");
 
@@ -184,7 +214,7 @@ console.log(window_width);
 
 canvas.width = window_width;
 canvas.height = window_height;
-canvas.style.background = "";
+canvas.style.background = "#ff8";
 
 class Platform {
     constructor(xpos, ypos, radius, speed, color, text, inPlat, length , text1 , weak, spiked) {
@@ -236,7 +266,6 @@ class Platform {
         context.stroke();
         context.closePath();
 
-    
     }
 
 
@@ -334,7 +363,7 @@ class Platform {
         if(x>(this.position_x) && x<(this.position_x + 4*(this.length)) && y>(this.position_y - 40) && (y < this.position_y) && this.spiked != ''){
            chanceSound();
            y = 0;
-           x = this.position_x - 1000;
+           x = this.position_x + 4* this.length + 100;
            checkChance();
 
         }
@@ -357,7 +386,7 @@ class Platform {
           setTimeout(()=>{
             // context.clearRect(0,0,canvas.width,canvas.height);
             this.length = 0;
-            this.color = "rgb(180, 220, 234)";
+            this.color = "#ff8";
             this.text = "";
             this.text1 = "";
             this.spiked = "";
@@ -429,17 +458,15 @@ function platDelay(){
         //Spiked Platform
         var rando2 = Math.random();
         var spiked = "";
-        if(rando2 > 0.85 && score > 50  && pickup1 == '' && pickup == ''){
+        if(rando2 > 0.5 && score > 50  && pickup1 == '' && pickup == ''){
            let spike1 = '🔺';
            var multi = Math.floor(len/10 + 0.45);
            spiked = spike1.repeat(multi);
         }
       
-        //Disapppearing Platforms
-
         var wp = Math.random();
         var wpa = 0;
-        if(wp>0.92 && spiked=='' && pickup == '' && pickup1 == ''){
+        if(wp>0.92){
             wpa = 1;
         }
 
@@ -468,7 +495,4 @@ updatePlatform();
   
 }
   
-
-
-
   

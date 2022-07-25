@@ -31,7 +31,9 @@ function lifeUpSound(){
 function GameMain(){
 
     document.querySelector(".life").style.display = 'block';  
-    document.querySelector("h3").style.display = 'block';  
+    document.querySelector("h3").style.display = 'block'; 
+    document.querySelector("body").classList.add("body1");
+
 
     if(inGame == true){
         return;
@@ -165,10 +167,10 @@ function GameMain(){
             var keyPr = event.keyCode; 
     
             if(keyPr === 39 && x<=window.innerWidth - 16){ 
-                x = x+18; 
+                x = x+16; 
             }
             else if(keyPr === 37 && x>5){
-                x = x-18;
+                x = x-16;
             }
             // else if(keyPr === 38 && y>10) {
             //     y = y-10; 
@@ -203,7 +205,7 @@ console.log(window_width);
 
 canvas.width = window_width;
 canvas.height = window_height;
-canvas.style.background = "#ff8";
+canvas.style.background = "";
 
 class Platform {
     constructor(xpos, ypos, radius, speed, color, text, inPlat, length) {

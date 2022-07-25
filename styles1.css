@@ -8,11 +8,11 @@ h1{
 h3{
     display: none;
     font-size: 2rem;
-    color: rgb(7, 118, 14);
+    color: rgb(61, 0, 141);
     position: absolute;
     z-index: 1;
-    top: 3%;
-    right: 3%;
+    top: 2.5%;
+    right: 2.5%;
 }
 
 body{
@@ -21,6 +21,17 @@ body{
     text-align: center;
 }
 
+.body1{
+    
+    background-image: url('Background.jpg');
+    height: 100%;
+    width: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: fill;
+
+}
 
 
 #w{
