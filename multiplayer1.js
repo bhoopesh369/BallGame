@@ -546,7 +546,7 @@ function platDelay(){
         //Spiked Platform
         var rando2 = Math.random();
         var spiked = "";
-        if(rando2 > 0.2 && score > 30  && pickup1 == '' && pickup == ''){
+        if(rando2 > 0.92 && score > 30  && pickup1 == '' && pickup == ''){
            let spike1 = '🔺';
            var multi = Math.floor(len/10 + 0.45);
            spiked = spike1.repeat(multi);
