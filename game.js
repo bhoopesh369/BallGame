@@ -4,7 +4,11 @@ var chances = 0;
 var score = 0;
 var HighscoreBlueBall = 0;
 
+var Name = window.prompt("Enter your name: ");
+
+
 // window.localStorage.setItem(HighscoreBlueBall, 0);
+
 
 console.log(window.localStorage.getItem(HighscoreBlueBall));
 
@@ -27,6 +31,8 @@ function lifeUpSound(){
     var aud = new Audio("sounds/lifeup.wav");
     aud.play();
 }
+
+
 
 function GameMain(){
 
@@ -150,16 +156,13 @@ function GameMain(){
             if(chances == 3){
                 gameOverSond();
                 dy=0;
-                setTimeout(()=>{
 
                     if(score> temp){
                         window.localStorage.setItem(HighscoreBlueBall, score);
                     }
         
-                alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");      
-                location.reload();
-              },900);
-                
+                 gameOverDisplay();   
+               
             }
         }
     
@@ -269,7 +272,7 @@ class Platform {
         
 
         if(this.inPlat){
-            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-45){
+            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-48){
                 dy = 1.5;
                 this.inPlat = false;
             }
@@ -340,51 +343,33 @@ let updatePlatform = function() {
 };
 
 updatePlatform();
+
+function gameOverDisplay(){
+    const Body = document.querySelector("body");
+    Body.innerHTML="";
+    Body.innerHTML=`
+    <div class="scorecard">
+        <div class="header">
+            Game Over
+        </div>
+        <div class="stats">
+            <p>Hi ${Name}</p>
+            <p>YourScore : ${Math.floor(score)}</p>
+            <p>HighScore : ${Math.floor(window.localStorage.getItem(HighscoreBlueBall)+1)}</p>
+            <p>Better luck next time🙃</p>
+            <button id="restart" class="btn">Play Again</button>
+        </div>
+    </div>
+    `;
+    const gameButton= document.getElementById('restart');
+    gameButton.addEventListener('click',()=>{
+       location.reload();
+    });
+} 
   
 }
-  
-  
-
-
 
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  // function draw() {
-   //     context.beginPath();
-   //     // context.arc(x, y, 20, 0, 2 * Math.PI);
-   //     context.fillStyle = 'rgba(250,0,0,0.4)';
-   //     context.fill();
-   
-//     x += 2;
-//     context.fillStyle = "rgba(34,45,23,0.4)";
-//     context.fillRect(0, 0, can.width, can.height);
-//     requestAnimationFrame(draw);
-//     // context.clearRect(0,0,can.width,can.height);
-// }
-// draw();
-
-
-// context.strokeStyle = '#666666';
-// context.stroke();
-// context.lineWidth = 10;
-// context.strokeStyle = '#666666';
-// context.stroke();
-
-     // for( var a = 0; a < all_platforms.length; a++) {
-        //   if ( (getDistance(random_x, random_y, all_platforms[a].xpos, all_platforms[a].ypos) - radius + all_platforms[a].radius < 0) ) {
-        //     random_x = randomNumber(radius, (window_width-radius));
-        //     random_y = randomNumber(radius, (window_height-radius));
-        //   }
-        //   a = all_platforms.length;
-        // }
 
 
 

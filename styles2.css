@@ -104,6 +104,51 @@ body{
     
 }
 
+.header{
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+    background-color: rgb(225, 255, 0);
+    /* border-radius: 250px; */
+    border-top-left-radius: 20px;
+    border-top-right-radius:20px ;
+
+    margin-bottom: 20px;
+    padding: 20px auto;
+    font-size: 1.6rem;
+}
+
+.scorecard{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(110, 124, 194);
+    margin-top: 12%;
+    margin-left: 36%;
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+    
+}
+
+.btn{
+    font-size: 1.2rem;
+    color: white;
+    padding: 5px 10px;
+    background-color: rgb(250, 88, 158);
+    border-radius: 10px;
+    margin-top: 0px;
+}
+
+.btn:hover{
+    background-color: rgb(221, 119, 159);
+}
+
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.1rem;
+}
+
+#wintag{
+    color: red;
+}
 
 h5{
     color: rgb(100, 39, 39);

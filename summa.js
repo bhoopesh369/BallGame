@@ -1,9 +1,7 @@
 var inGame = false;
 // var inPlat = false;
 var chances = 0;
-var chances1 = 0;
 var score = 0;
-var score1 = 0;
 var HighscoreBlueBall = 0;
 
 // window.localStorage.setItem(HighscoreBlueBall, 0);
@@ -21,7 +19,7 @@ function chanceSound(){
 }
 
 function gameOverSond(){
-    var aud = new Audio("sounds/MultEnd.wav");
+    var aud = new Audio("sounds/gameover.mp3");
     aud.play();
 }
 
@@ -33,10 +31,7 @@ function lifeUpSound(){
 function GameMain(){
 
     document.querySelector(".life").style.display = 'block';  
-    document.querySelector(".lifeB1").style.display = 'block';  
-    document.querySelector(".sc1").style.display = 'block';  
-    document.querySelector(".sc").style.display = 'block';  
-
+    document.querySelector("h3").style.display = 'block';  
 
     if(inGame == true){
         return;
@@ -50,7 +45,7 @@ function GameMain(){
     canvas3.width = window.innerWidth;
     canvas3.height = window.innerHeight;
     
-    context1.fillStyle = "Black";
+    context1.fillStyle = "#FF5B00";
     
     var width = (window.innerWidth)/25 ;
     
@@ -67,15 +62,14 @@ function GameMain(){
 
     var canvas2 = document.getElementById("myCanvas");
     var ctx2 = canvas2.getContext("2d");
-    var x = 1100;
+    var x = 800;
     var y = 50;
-    var dx = 0;
+    var dx = 2;
     var dy = 1.5;
 
-    var z = 1.3;
+    var z = 1.5;
     
-    ctx2.fillStyle = "rgb(20, 0, 255)";
-
+    ctx2.fillStyle = "#0095DD";
     
     
     function displayBall(X,Y) {
@@ -90,10 +84,9 @@ function GameMain(){
         var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
             
             if(chances<2){
-                document.querySelectorAll("span")[2 - chances].style.display = 'none'; 
                 chanceSound();
                 dy= z;
-                dx = 0;
+                document.querySelectorAll("span")[2 - chances].style.display = 'none'; 
                 y = 130;
                 x = window_height;
             }
@@ -101,49 +94,18 @@ function GameMain(){
             chances++;
             
             if(chances == 3){
-                document.querySelectorAll("span")[0].style.display = 'none'; 
                 y = 40;
                 z = 0;
                 dy = 0;
                 gameOverSond();
                 
-        
-              setTimeout(()=>{ 
-                alert("Green Ball Wins");
-                location.reload();
-              },200);
-                
-            }
-    }
-
-    function checkChance1(){
-        var temp = 0 + window.localStorage.getItem(HighscoreBlueBall);
-            
-            if(chances1<2){
-                chanceSound();
-                dy1= z;
-                dx1 = 0;
-                document.querySelectorAll("#b2")[2 - chances1].style.display = 'none'; 
-                y1 = 130;
-                x1 = window_height;
-            }
-           
-            chances1++;
-            
-            if(chances1 == 3){
-                document.querySelectorAll("#b2")[0].style.display = 'none'; 
-                y1 = 40;
-                z = 0;
-                dy1 = 0;
-                gameOverSond();
-                
          
-                    // if(score> temp){
-                    //     window.localStorage.setItem(HighscoreBlueBall, score);
-                    // }
+                    if(score> temp){
+                        window.localStorage.setItem(HighscoreBlueBall, score);
+                    }
         
               setTimeout(()=>{ 
-                alert("Blue Ball Wins");
+                alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");
                 location.reload();
               },200);
                 
@@ -158,27 +120,44 @@ function GameMain(){
             checkChance();
         }
     
+        window.onkeydown = function(event) {
+            var keyPr = event.keyCode; 
+    
+            if(keyPr === 39 && x<=window.innerWidth - 16){ 
+                x = x+18; 
+            }
+            else if(keyPr === 37 && x>5){
+                x = x-18;
+            }
+            // else if(keyPr === 38 && y>10) {
+            //     y = y-10; 
+            // }
+            // else if(keyPr === 40 && y<+window.innerHeight){
+            //     y = y+10; 
+            // }
+    
+    };
+  
+      
        ctx2.clearRect(0, 0, canvas.width , canvas.height);
        displayBall(x,y);
-       x += dx;
+       //  x += dx;
        y += dy;
 
        if(dy>0){
         score = score + 0.1;
-        document.querySelector(".sc1").innerHTML = "Score : " + Math.floor(score) ;
+        document.querySelector("h3").innerHTML = "Score : " + Math.floor(score) ;
        } 
-
    }
   
+
 
     var canvas1 = document.getElementById("myCanvas1");
     var ctx1 = canvas1.getContext("2d");
 
-    ctx1.fillStyle = "rgb(0, 255, 5)";
-
-    var x1 = 400;
+    var x1 = 200;
     var y1 = 50;
-    var dx1 = 0;
+    var dx1 = 2;
     var dy1 = 1.5;
       
 
@@ -192,50 +171,36 @@ function GameMain(){
     function drawB2() {
         if(y1>=window.innerHeight - 16 || y1<40){
     
-            checkChance1();
+            checkChance();
         }
-        if(dy1>0){
-            score1 = score1 + 0.1;
-            document.querySelector(".sc").innerHTML = "Score : " + Math.floor(score1) ;
-        } 
     
         window.onkeydown = function(event) {
             var keyPr1 = event.keyCode; 
     
             if(keyPr1 === 68 && x1<=window.innerWidth - 16){ 
-                dx1 = 1.5;
+                x1 = x1+18; 
             }
-            
-            if(keyPr1 === 65 && x1>5){
-                dx1 = -1.5;
+            else if(keyPr1 === 65 && x1>5){
+                x1 = x1-18;
             }
-
-            if(keyPr1 === 39 && x<=window.innerWidth - 16){ 
-                dx = 1.5;
-            }
-
-            if(keyPr1 === 37 && x>5){
-                // x = x-18;
-                dx = -1.5;
-            }
-
-            
+    
     };
     
     
        ctx1.clearRect(0, 0, canvas.width , canvas.height);
        displayBall1(x1,y1);
-       x1 += dx1;
+       //  x += dx;
        y1 += dy1;
 
     //    if(dy1>0){
     //     score = score + 0.1;
-    //     document.querySelector(".sc1").innerHTML = "Score : " + Math.floor(score) ;
+    //     document.querySelector("h3").innerHTML = "Score : " + Math.floor(score) ;
     //    } 
    }
 
 
    const ballInter1 = setInterval(drawB2, 10);
+   setTimeout(100);
    const ballInter = setInterval(drawB, 10);
 
 
@@ -249,10 +214,10 @@ console.log(window_width);
 
 canvas.width = window_width;
 canvas.height = window_height;
-canvas.style.background = "#B52B65";
+canvas.style.background = "#ff8";
 
 class Platform {
-    constructor(xpos, ypos, radius, speed, color, text, inPlat, inPlatB2, length , text1 , weak, spiked) {
+    constructor(xpos, ypos, radius, speed, color, text, inPlat, length , text1 , weak, spiked) {
 
         this.position_x = xpos;
         this.position_y = ypos;
@@ -274,8 +239,6 @@ class Platform {
         this.spiked = spiked;
 
         this.inPlat = inPlat;
-        this.inPlatB2 = inPlatB2;
-
         this.length = length;
     }
 
@@ -297,6 +260,7 @@ class Platform {
         }
 
         
+
         context.rect(this.position_x, this.position_y, 4*this.length ,7);
         context.fill();
         context.stroke();
@@ -310,32 +274,59 @@ class Platform {
          // Game Speed up with progress
 
         if(score>50){
-            z = 1.45;
-        }
-        if(score>150){
             z = 1.55;
         }
-        if(score>250){
+
+        if(score>100){
+            z = 1.6;
+        }
+
+        if(score>150){
             z = 1.65;
         }
-        if(score>350){
+
+        if(score>200){
+            z = 1.7;
+        }
+
+        if(score>250){
             z = 1.75;
         }
-        if(score>450){
+
+        if(score>300){
+            z = 1.8;
+        }
+
+        if(score>350){
             z = 1.85;
         }
 
-        if(score>550){
+        if(score>400){
+            z = 1.9;
+        }
+
+        if(score>450){
             z = 1.95;
         }
 
+        if(score>500){
+            z = 2.00;
+        }
+
+        if(score>550){
+            z = 2.05;
+        }
+
+        if(score>600){
+            z = 2.1;
+        }
+
         if(score>650){
-            z = 2;
+            z = 2.2;
         }
 
         //  Life Upgrade
 
-        //Ball 1
         if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text == '💓'){
             this.text = "";
             // context.font = "12px Arial";
@@ -344,22 +335,12 @@ class Platform {
             context.clearRect(this.position_x,this.position_y-20, this.position_x+20, this.position_y );
             document.querySelectorAll("span")[3 - chances].style.display = 'inline'; 
             chances--;
-        }
-        //Ball2
-        if(x1<(this.position_x + 2*(this.length) + 22.5) && x1>(this.position_x + this.length +5) && (y1 > (this.position_y - 40)) && (y1 < this.position_y) && this.text == '💓'){
-            this.text = "";
-            // context.font = "12px Arial";
-            // context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15);
-            lifeUpSound();
-            context.clearRect(this.position_x,this.position_y-20, this.position_x+20, this.position_y );
-            document.querySelectorAll("#b2")[3 - chances1].style.display = 'inline'; 
-            chances1--;
+
         }
 
 
         // Game Slowdown Boost
 
-        //Ball1
         if(x<(this.position_x + 2*(this.length) + 22.5) && x>(this.position_x + this.length +5) && (y > (this.position_y - 40)) && (y < this.position_y) && this.text1 == '⏳'){
             this.text1 = "";
             // context.font = "12px Arial";
@@ -376,51 +357,20 @@ class Platform {
             },5000);
 
         }
-        //Ball2
-        if(x1<(this.position_x + 2*(this.length) + 22.5) && x1>(this.position_x + this.length +5) && (y1 > (this.position_y - 40)) && (y1 < this.position_y) && this.text1 == '⏳'){
-            this.text1 = "";
-            // context.font = "12px Arial";
-            // context.fillText(this.text, this.position_x + 2*(this.length), this.position_y - 15);
-            lifeUpSound();
-            context.clearRect(this.position_x,this.position_y-20, this.position_x+20, this.position_y );
-            this.dy = 1;
-            dy1 = 1;
-            z = 1;
-            setTimeout(()=>{
-               this.dy = 1.5;
-               dy1 = 1.5;
-               z = 1.5;
-            },5000);
-
-        }
 
         //Spiked Platforms
-        //Ball1
+
         if(x>(this.position_x) && x<(this.position_x + 4*(this.length)) && y>(this.position_y - 40) && (y < this.position_y) && this.spiked != ''){
            chanceSound();
            y = 0;
            x = this.position_x + 4* this.length + 100;
            checkChance();
-        }
-        //Ball2
-        if(x1>(this.position_x) && x1<(this.position_x + 4*(this.length)) && y1>(this.position_y - 40) && (y1 < this.position_y) && this.spiked != ''){
-            chanceSound();
-            y1 = 0;
-            x1 = this.position_x + 4* this.length + 100;
-            checkChance1();
- 
-         }
 
-        //Collision
+        }
 
         if(x<(this.position_x + 4*(this.length)) && x>(this.position_x)  && y>(this.position_y -18) && y<(this.position_y + 25) ){
             dy = -2*z;
             this.inPlat = true;
-        }
-        
-        if(x1<(this.position_x + 4*(this.length)) && x1>(this.position_x)  && y1>(this.position_y -18) && y1<(this.position_y + 25) ){
-            dy1 = -2*z;
-            this.inPlatB2 = true;
         }
         
 
@@ -431,19 +381,12 @@ class Platform {
             }
         }
 
-        if(this.inPlatB2){
-            if(x1>(this.position_x  + 4*(this.length)) || x1<(this.position_x) || y1<this.position_y-45){
-                dy1 = z;
-                this.inPlatB2 = false;
-            }
-        }
-
         if(this.weak == 1){
         //   this.color = "red";  
           setTimeout(()=>{
             // context.clearRect(0,0,canvas.width,canvas.height);
             this.length = 0;
-            this.color = "#B52B65";
+            this.color = "#ff8";
             this.text = "";
             this.text1 = "";
             this.spiked = "";
@@ -501,7 +444,7 @@ function platDelay(){
 
         //Health
         var pickup = "";
-        if(rando > 0.5 && chances > 0){
+        if(rando > 0.95 && chances > 0){
            pickup = '💓';
         }
 
@@ -515,7 +458,7 @@ function platDelay(){
         //Spiked Platform
         var rando2 = Math.random();
         var spiked = "";
-        if(rando2 > 0.85 && score > 30  && pickup1 == '' && pickup == ''){
+        if(rando2 > 0.5 && score > 50  && pickup1 == '' && pickup == ''){
            let spike1 = '🔺';
            var multi = Math.floor(len/10 + 0.45);
            spiked = spike1.repeat(multi);
@@ -533,7 +476,7 @@ function platDelay(){
         //     spa = 1;
         // }
 
-        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , false, len, pickup1, wpa, spiked);
+        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , len, pickup1, wpa, spiked);
         all_platforms.push(myPlatform);
        },1500*i);
 }

@@ -6,6 +6,9 @@ var score = 0;
 var score1 = 0;
 var HighscoreBlueBall = 0;
 
+var Name = window.prompt("Enter Player 1 name: ");
+var Name1 = window.prompt("Enter Player 2 name: ");
+
 
 console.log(window.localStorage.getItem(HighscoreBlueBall));
 
@@ -110,11 +113,8 @@ function GameMain(){
                 gameOverSond();
                 
         
-              setTimeout(()=>{ 
-                alert("Green Ball Wins");
-                location.reload();
-              },100);
-                
+               gameOverDisplay("Green");
+               return; 
             }
     }
 
@@ -145,11 +145,8 @@ function GameMain(){
                     //     window.localStorage.setItem(HighscoreBlueBall, score);
                     // }
         
-              setTimeout(()=>{ 
-                alert("Blue Ball Wins");
-                location.reload();
-              },200);
-                
+                gameOverDisplay("Blue");
+                return;
             }
     }
 
@@ -583,6 +580,31 @@ let updatePlatform = function() {
 
 updatePlatform();
   
+function gameOverDisplay(bname){
+    const Body = document.querySelector("body");
+    Body.innerHTML="";
+    Body.innerHTML=`
+    <div class="scorecard">
+        <div class="header">
+            Game Over
+        </div>
+        <div class="stats">
+            <p>Hi ${Name} and ${Name1}</p>
+            <p id="wintag">${bname} ball wins!</p>
+            <p>Blue Score : ${Math.floor(score + (3-chances)*30)}</p>
+            <p>Green Score: ${Math.floor(score1 + (3-chances1)*30)}</p>
+            <p>Good Game🙃</p>
+            <button id="restart" class="btn">Play Again</button>
+        </div>
+    </div>
+    `;
+    const gameButton= document.getElementById('restart');
+    gameButton.addEventListener('click',()=>{
+       location.reload();
+    });
+} 
+
+
 }
   
   

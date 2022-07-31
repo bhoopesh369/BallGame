@@ -5,6 +5,7 @@ var score = 0;
 
 var HighscoreBlueBall = 0;
 
+var Name = window.prompt("Enter your name: ");
 
 console.log(window.localStorage.getItem(HighscoreBlueBall));
 
@@ -90,7 +91,7 @@ function GameMain(){
 
     var z = 1.5;
     
-    ctx2.fillStyle = "rgb(255, 0, 255)";
+    ctx2.fillStyle = "#0095DD";
     
     
     function displayBall() {
@@ -121,15 +122,11 @@ function GameMain(){
                 dy = 0;
                 gameOverSond();
                 
-         
                     if(score> temp){
                         window.localStorage.setItem(HighscoreBlueBall, score);
                     }
         
-              setTimeout(()=>{ 
-                alert("HighScore : " + Math.floor(window.localStorage.getItem(HighscoreBlueBall)+10) + "");
-                location.reload();
-              },200);
+                gameOverDisplay();
                 
             }
     }
@@ -346,7 +343,7 @@ class Platform {
         
 
         if(this.inPlat){
-            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-45){
+            if(x>(this.position_x  + 4*(this.length)) || x<(this.position_x) || y<this.position_y-50){
                 dy = z;
                 this.inPlat = false;
             }
@@ -465,6 +462,29 @@ let updatePlatform = function() {
 };
 
 updatePlatform();
+
+function gameOverDisplay(){
+    const Body = document.querySelector("body");
+    Body.innerHTML="";
+    Body.innerHTML=`
+    <div class="scorecard">
+        <div class="header">
+            Game Over
+        </div>
+        <div class="stats">
+            <p>Hi ${Name}</p>
+            <p>YourScore : ${Math.floor(score)}</p>
+            <p>HighScore : ${Math.floor(window.localStorage.getItem(HighscoreBlueBall)+1)}</p>
+            <p>Better luck next time🙃</p>
+            <button id="restart" class="btn">Play Again</button>
+        </div>
+    </div>
+    `;
+    const gameButton= document.getElementById('restart');
+    gameButton.addEventListener('click',()=>{
+       location.reload();
+    });
+} 
   
 }
   
