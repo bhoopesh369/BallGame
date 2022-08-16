@@ -119,14 +119,22 @@ body{
 
 .scorecard{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: rgb(110, 124, 194);
+    background-color: rgb(131, 146, 219);
     margin-top: 12%;
     margin-left: 36%;
     width: 400px;
     height: 300px;
     border-radius: 20px;
     
+    animation: fadeIn 6s; 
+
 }
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 
 .btn{
     font-size: 1.2rem;
@@ -138,7 +146,8 @@ body{
 }
 
 .btn:hover{
-    background-color: rgb(221, 119, 159);
+    background-color: rgb(206, 88, 133);
+    box-shadow: 1px 1px 10px rgb(255, 255, 255);
 }
 
 p{
@@ -147,10 +156,12 @@ p{
 }
 
 #wintag{
-    color: red;
+    color: white;
+    font-weight: 600;
 }
 
 h5{
     color: rgb(100, 39, 39);
     color: rgb(255, 0, 255);
 }
+

@@ -16,19 +16,20 @@ console.log(window.localStorage.getItem(HighscoreBlueBall));
 document.addEventListener('keypress',GameMain);
 document.addEventListener('click',GameMain);
 
+var aud;
 
 function chanceSound(){
-    var aud = new Audio("sounds/chance.mp3");
+    aud = new Audio("sounds/chance.mp3");
     aud.play();
 }
 
 function gameOverSond(){
-    var aud = new Audio("sounds/MultEnd.wav");
+    aud = new Audio("sounds/MultEnd.wav");
     aud.play();
 }
 
 function lifeUpSound(){
-    var aud = new Audio("sounds/lifeup.wav");
+    aud = new Audio("sounds/lifeup.wav");
     aud.play();
 }
 
@@ -110,6 +111,9 @@ function GameMain(){
                 y = 40;
                 z = 0;
                 dy = 0;
+                dy1 = 0;
+                dx1 = 0;
+                dx = 0;
                 gameOverSond();
                 
         
@@ -138,6 +142,9 @@ function GameMain(){
                 x1 = window_height;
                 z = 0;
                 dy1 = 0;
+                dx1 = 0;
+                dy = 0;
+                dx = 0;
                 gameOverSond();
                 
          
@@ -146,7 +153,7 @@ function GameMain(){
                     // }
         
                 gameOverDisplay("Blue");
-                return;
+                return 5;
             }
     }
 
@@ -290,6 +297,7 @@ class Platform {
     draw(context) {
         context.beginPath();
         context.strokeStyle = this.color;
+        context.fillStyle = this.color;
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.font = "30px Arial";
@@ -479,7 +487,7 @@ class Platform {
             this.spiked = "";
             // all_platforms.pop(this);
             return;
-          },(Math.random() + 0.5) * 1500);
+          },(Math.random()*5 + 1) * 3500);
         }      
     
         // this.inPlat = false;
@@ -525,6 +533,8 @@ function platDelay(){
         var random_y = randomNumber(window_height- 1*radius, (window_height - radius));
         var len = 60*(0.7 + Math.random());
 
+        var col = 'Black';
+
         var rando = Math.random();
 
         //Health
@@ -543,7 +553,7 @@ function platDelay(){
         //Spiked Platform
         var rando2 = Math.random();
         var spiked = "";
-        if(rando2 > 0.92 && score > 30  && pickup1 == '' && pickup == ''){
+        if(rando2 > 0.90 && score > 30  && pickup1 == '' && pickup == ''){
            let spike1 = '🔺';
            var multi = Math.floor(len/10 + 0.45);
            spiked = spike1.repeat(multi);
@@ -553,8 +563,9 @@ function platDelay(){
       
         var wp = Math.random();
         var wpa = 0;
-        if(wp>0.95 && pickup1 == '' && pickup == '' && spiked == ''){
+        if(wp>0.85 && pickup1 == '' && pickup == '' && spiked == ''){
             wpa = 1;
+            col = 'Red';
         }
 
         // var sp = Math.random();
@@ -563,7 +574,7 @@ function platDelay(){
         //     spa = 1;
         // }
 
-        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , false, len, pickup1, wpa, spiked);
+        let myPlatform = new Platform(2*random_x, random_y, radius, z, col , pickup , false , false, len, pickup1, wpa, spiked);
         all_platforms.push(myPlatform);
        },1500*i);
 }

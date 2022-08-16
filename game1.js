@@ -212,6 +212,7 @@ class Platform {
     draw(context) {
         context.beginPath();
         context.strokeStyle = this.color;
+        context.fillStyle = this.color;
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.font = "30px Arial";
@@ -349,8 +350,11 @@ class Platform {
             }
         }
 
+            //Disappearing Platforms
+
         if(this.weak == 1){
-        //   this.color = "red";  
+        //   this.color = "red"; 
+        var time = Math.floor(5*Math.random() + 1) * 3500; 
           setTimeout(()=>{
             // context.clearRect(0,0,canvas.width,canvas.height);
             this.length = 0;
@@ -359,14 +363,13 @@ class Platform {
             this.text1 = "";
             this.spiked = "";
             // all_platforms.pop(this);
-            return;
-          },(Math.random() + 0.5) * 1500);
+            // return;
+          }, time);
         }      
     
         // this.inPlat = false;
         this.draw(context);
 
-            //Disappearing Platforms
 
                
         if ( (this.position_x - this.radius) < 0 ) {
@@ -410,6 +413,8 @@ function platDelay(){
 
         var rando = Math.random();
 
+        var col = 'Black';
+
         //Health
         var pickup = "";
         if(rando > 0.95 && chances > 0){
@@ -436,8 +441,9 @@ function platDelay(){
 
         var wp = Math.random();
         var wpa = 0;
-        if(wp>0.92 && spiked=='' && pickup == '' && pickup1 == ''){
+        if(wp>0.85 && spiked=='' && pickup == '' && pickup1 == ''){
             wpa = 1;
+            col = 'Red';
         }
 
         // var sp = Math.random();
@@ -446,7 +452,7 @@ function platDelay(){
         //     spa = 1;
         // }
 
-        let myPlatform = new Platform(2*random_x, random_y, radius, z, 'Black', pickup , false , len, pickup1, wpa, spiked);
+        let myPlatform = new Platform(2*random_x, random_y, radius, z, col, pickup , false , len, pickup1, wpa, spiked);
         all_platforms.push(myPlatform);
        },1500*i);
 }

@@ -39,6 +39,7 @@ function GameMain(){
     document.querySelector(".life").style.display = 'block';  
     document.querySelector("h3").style.display = 'block'; 
     document.querySelector("body").classList.add("body1");
+    // document.querySelector("body").classList.remove("blur");
 
 
     if(inGame == true){
@@ -124,8 +125,8 @@ function GameMain(){
     var ctx2 = canvas2.getContext("2d");
     var x = 800;
     var y = 50;
-    var dx = 2;
-    var dy = 2;
+    var dx = 0;
+    var dy = 3;
     
     ctx2.fillStyle = "#0095DD";
     
@@ -165,15 +166,21 @@ function GameMain(){
                
             }
         }
+
+            document.addEventListener("keydown",function(event){
+            var keyPr = event.key; 
     
-        window.onkeydown = function(event) {
-            var keyPr = event.keyCode; 
-    
-            if(keyPr === 39 && x<=window.innerWidth - 16){ 
-                x = x+16; 
+            if(keyPr == "ArrowRight" && x<=window.innerWidth - 16){ 
+                
+                 dx = 5;
+                 dy = 1;
+
             }
-            else if(keyPr === 37 && x>5){
-                x = x-16;
+            else if(keyPr == "ArrowLeft" && x>5){
+
+                dx = -5;
+                dy = 1; 
+    
             }
             // else if(keyPr === 38 && y>10) {
             //     y = y-10; 
@@ -182,12 +189,26 @@ function GameMain(){
             //     y = y+10; 
             // }
     
-    };
+    });
+
+    document.addEventListener("keyup",function(event){
+        var keyPr = event.key; 
+
+        if(keyPr == "ArrowRight" && x<=window.innerWidth - 16){
+            dx = 0;
+            dy = 3;
+        }
+        else if(keyPr == "ArrowLeft" && x>5){
+            dx = 0;
+            dy = 3;
+        }
+
+    });
   
       
        ctx2.clearRect(0, 0, canvas.width , canvas.height);
        displayBall();
-       //  x += dx;
+        x += dx;
        y += dy;
 
        if(dy>0){
@@ -361,6 +382,8 @@ function gameOverDisplay(){
         </div>
     </div>
     `;
+    // Body.classList.add("blur");
+
     const gameButton= document.getElementById('restart');
     gameButton.addEventListener('click',()=>{
        location.reload();
